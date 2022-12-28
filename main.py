@@ -47,7 +47,17 @@ class Lexer():
         r'\(\*'
         token.lexer.push_state('COMMENT2')
         self.depth += 1
-        
+
+    # Regular expression rules for comments which end with */ in INITIAL state
+    def t_ENDCOMMENT1(self, token):
+        r'\*/'
+        print('This end comment has no start comment you needed to use: /* before */')
+
+    # Regular expression rules for comments which end with *) in INITIAL state
+    def t_ENDCOMMENT2(self, token):
+        r'\*\)'
+        print('This end comment has no start comment you needed to use: (* before *)')
+
     # Error handling rule for comments which start with /*
     def t_COMMENT1_error(self, error):
         error.lexer.skip(1)
@@ -140,6 +150,6 @@ print('---------------------')
 
 # Output with ERROR
 print('Output with ERROR:')
-s.deLexicalAnalysis(r"hello /* bye *) test (* something *)")
+s.deLexicalAnalysis(r"hello */ /* bye *) test (* something *)")
 
 
